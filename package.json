@@ -1,0 +1,55 @@
+{
+  "name": "sys-echo-ui",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "13.4.0",
+    "@testing-library/user-event": "13.5.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "npm run prettier && npm run eslint && npm run test && react-scripts build",
+    "test": "npx react-scripts test --watchAll=false --coverage",
+    "eject": "react-scripts eject",
+    "prettier": "npx prettier-eslint \"src/**/*.js\" --write -l info",
+    "eslint": "npx eslint --fix src --format html -o build-reports/eslint.html --ignore-pattern \"**.test.js\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "env-cmd": "10.1.0",
+    "eslint": "8.32.0",
+    "husky": "8.0.3",
+    "jest-fetch-mock": "3.0.3",
+    "prettier-eslint-cli": "7.1.0"
+  },
+  "jest": {
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ]
+  }
+}
