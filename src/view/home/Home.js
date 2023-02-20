@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as controller from "./home-controller";
+import AppState from "../../AppState";
 
 class Home extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class Home extends Component {
   }
 
   async componentDidMount() {
-    const result = await controller.load("http://localhost:8080");
+    const result = await controller.load(AppState.getUrl());
     this.setState({
       data: result
     });
@@ -27,7 +28,11 @@ class Home extends Component {
     const email = elements["email"].value;
     const password = elements["password"].value;
 
-    await controller.login("http://localhost:8080", email, password);
+    const result = await controller.login(AppState.getUrl(), email, password);
+
+    if (result.success) {
+    } else {
+    }
   }
 
   render() {

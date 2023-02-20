@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 
 import Home from "./view/home/Home";
+import Dashboard from "./view/dashboard/Dashboard";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </Router>

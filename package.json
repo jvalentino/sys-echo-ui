@@ -10,11 +10,12 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.6.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "2.1.4"
+    "web-vitals": "2.1.4",
+    "universal-cookie": "4.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "npm run prettier && npm run eslint && npm run test && react-scripts build",
+    "start": "npx env-cmd -f .env.development react-scripts start",
+    "build": "npm run prettier && npm run eslint && npm run test && npx env-cmd -f .env.development react-scripts build",
     "test": "npx react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject",
     "prettier": "npx prettier-eslint \"src/**/*.js\" --write -l info",
