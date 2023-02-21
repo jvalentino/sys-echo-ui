@@ -11,6 +11,7 @@ async function load(url, sessionId, docId) {
   return result;
 }
 
+// https://stackoverflow.com/questions/50694881/how-to-download-file-in-react-js
 async function download(url, sessionId, docVersionId) {
   const endpoint = `${url}/version/download/${docVersionId}`;
   const headers = {
@@ -25,8 +26,24 @@ async function download(url, sessionId, docVersionId) {
   const response = await fetch(endpoint, requestOptions);
 
   const blob = await response.blob();
-  console.log(blob);
   return blob;
 }
 
-export { load, download };
+async function upload(url, sessionId, docId, formData) {
+  const endpoint = `${url}/version/new/${docId}`;
+  const headers = {
+    "X-Auth-Token": sessionId
+  };
+
+  const requestOptions = {
+    method: "POST",
+    headers: headers,
+    body: formData
+  };
+
+  const response = await fetch(endpoint, requestOptions);
+  const text = await response.text();
+  console.log(text);
+}
+
+export { load, download, upload };

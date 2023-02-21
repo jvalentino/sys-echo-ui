@@ -7,13 +7,16 @@ class ViewVersions extends Component {
   constructor() {
     super();
     this.downloadClicked = this.downloadClicked.bind(this);
+    this.uploadClicked = this.uploadClicked.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
 
     const split = window.location.href.split("/");
     const docId = split[split.length - 1];
 
     this.state = {
       data: null,
-      docId: docId
+      docId: docId,
+      selectedFile: null
     };
   }
 
@@ -52,6 +55,34 @@ class ViewVersions extends Component {
     link.parentNode.removeChild(link);
   }
 
+  async uploadClicked(event) {
+    event.preventDefault();
+
+    const file = this.state.selectedFile;
+    const formData = new FormData();
+
+    // Update the formData object
+    formData.append("file", file, file.name);
+
+    const docId = this.state.data.doc.docId;
+
+    await controller.upload(
+      AppState.getUrl(),
+      AppState.getSessionId(),
+      docId,
+      formData
+    );
+
+    window.location = `/view-versions/${docId}`;
+  }
+
+  onFileChange(event) {
+    console.log(event.target.files[0]);
+    this.setState({
+      selectedFile: event.target.files[0]
+    });
+  }
+
   render() {
     if (this.state.data == null) {
       return (
@@ -68,6 +99,16 @@ class ViewVersions extends Component {
         <h1>{doc.name}</h1>
         <Menu />
         <h2>Add New Version</h2>
+        <form
+          onSubmit={this.uploadClicked}
+          method="POST"
+          encType="multipart/form-data"
+        >
+          <input type="file" name="file" onChange={this.onFileChange} />
+          <br />
+          <br />
+          <input type="submit" value="Submit" />
+        </form>
         <hr />
         <h2>Versions</h2>
         <table>
