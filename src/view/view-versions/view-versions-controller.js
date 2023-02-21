@@ -11,4 +11,22 @@ async function load(url, sessionId, docId) {
   return result;
 }
 
-export { load };
+async function download(url, sessionId, docVersionId) {
+  const endpoint = `${url}/version/download/${docVersionId}`;
+  const headers = {
+    "X-Auth-Token": sessionId
+  };
+
+  const requestOptions = {
+    method: "GET",
+    headers: headers
+  };
+
+  const response = await fetch(endpoint, requestOptions);
+
+  const blob = await response.blob();
+  console.log(blob);
+  return blob;
+}
+
+export { load, download };
