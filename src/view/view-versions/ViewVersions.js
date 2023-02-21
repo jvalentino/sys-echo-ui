@@ -1,27 +1,30 @@
 import React, { Component } from "react";
-//import PropTypes from "prop-types";
-
-//import * as controller from "./dashboard-controller";
-//import AppState from "../../AppState";
-//import Menu from "../../component/menu/Menu";
+import * as controller from "./view-versions-controller";
+import AppState from "../../AppState";
+import Menu from "../../component/menu/Menu";
 
 class ViewVersions extends Component {
   constructor() {
     super();
-    //let { id } = this.props.params;
-    console.log(this.props);
+    const split = window.location.href.split("/");
+    const docId = split[split.length - 1];
 
     this.state = {
-      data: null
+      data: null,
+      docId: docId
     };
   }
 
   async componentDidMount() {
-    /*const data = await controller.load(AppState.getUrl(), AppState.getSessionId());
+    const data = await controller.load(
+      AppState.getUrl(),
+      AppState.getSessionId(),
+      this.state.docId
+    );
 
     this.setState({
       data: data
-    });*/
+    });
   }
 
   render() {
@@ -33,7 +36,42 @@ class ViewVersions extends Component {
       );
     }
 
-    return <div></div>;
+    const doc = this.state.data.doc;
+
+    return (
+      <div>
+        <h1>{doc.name}</h1>
+        <Menu />
+        <h2>Add New Version</h2>
+        <hr />
+        <h2>Versions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Version</th>
+              <th>Uploaded</th>
+              <th>Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            {doc.versions.map((version) => (
+              <tr key={version.docVersionId}>
+                <td>{version.versionNum}</td>
+                <td>
+                  {new Date(version.createdDateTime).toLocaleDateString()}{" "}
+                  {new Date(version.createdDateTime).toLocaleTimeString()}
+                </td>
+                <td>
+                  <a href={`/version/download/${version.docVersionId}`}>
+                    Download
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
   }
 }
 
