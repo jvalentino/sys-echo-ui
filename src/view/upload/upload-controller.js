@@ -11,6 +11,7 @@ async function upload(url, sessionId, formData) {
   };
 
   const response = await fetch(endpoint, requestOptions);
+  console.log(response);
   const text = await response.text();
   console.log(text);
 }
