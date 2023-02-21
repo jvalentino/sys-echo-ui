@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as controller from "./dashboard-controller";
 import AppState from "../../AppState";
+import Menu from "../../component/menu/Menu";
 
 class Dashboard extends Component {
   constructor() {
@@ -12,7 +13,14 @@ class Dashboard extends Component {
   }
 
   async componentDidMount() {
-    await controller.load(AppState.getUrl(), AppState.getSessionId());
+    const data = await controller.load(
+      AppState.getUrl(),
+      AppState.getSessionId()
+    );
+
+    this.setState({
+      data: data
+    });
   }
 
   render() {
@@ -24,7 +32,37 @@ class Dashboard extends Component {
       );
     }
 
-    return <div></div>;
+    return (
+      <div>
+        <h1>Dashboard</h1>
+        <Menu />
+
+        <table>
+          <thead>
+            <tr>
+              <th>Document Name</th>
+              <th>Last Updated By</th>
+              <th>Last Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.data.documents.map((document) => (
+              <tr key={document.docId}>
+                <td>{document.name}</td>
+                <td>{document.updatedByUser.email}</td>
+                <td>{document.updatedDateTime}</td>
+                <td>
+                  <a href={`./view-versions/${document.docId}`}>
+                    View Versions
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
   }
 }
 
