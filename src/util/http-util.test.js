@@ -69,7 +69,10 @@ describe("test http-util", function () {
       expect(result.success).toEqual(true);
       expect(fetch).toHaveBeenCalledTimes(1);
       expect(fetch).toHaveBeenCalledWith("https://alpha?charlie=delta", {
-        method: "GET"
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
     });
 

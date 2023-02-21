@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import * as controller from "./home-controller";
 import AppState from "../../AppState";
+import * as errorModal from "../../component/errorModal/error-modal";
+import { Navigate } from "react-router-dom";
 
 class Home extends Component {
   constructor() {
@@ -9,7 +11,8 @@ class Home extends Component {
     this.submit = this.submit.bind(this);
 
     this.state = {
-      data: null
+      data: null,
+      loggedIn: false
     };
   }
 
@@ -31,7 +34,12 @@ class Home extends Component {
     const result = await controller.login(AppState.getUrl(), email, password);
 
     if (result.success) {
+      AppState.setSessionId(result.sessionId);
+      this.setState({
+        loggedIn: true
+      });
     } else {
+      errorModal.display(result.message);
     }
   }
 
@@ -42,6 +50,10 @@ class Home extends Component {
           <h1>Loading...</h1>
         </div>
       );
+    }
+
+    if (this.state.loggedIn) {
+      return <Navigate to="/dashboard" push={true} />;
     }
 
     return (

@@ -1,6 +1,8 @@
-async function request(url, type, parameters, body) {
+async function request(url, type, parameters, body, headers = {}) {
   const endpoint = generateEndpoint(url, parameters);
-  const requestOptions = generateRequestOptions(type, body);
+  const requestOptions = generateRequestOptions(type, body, headers);
+  console.log(endpoint);
+  console.log(requestOptions);
 
   const response = await fetch(endpoint, requestOptions);
 
@@ -10,25 +12,28 @@ async function request(url, type, parameters, body) {
   return result;
 }
 
-function generateRequestOptions(type, body) {
+function generateRequestOptions(type, body, headers) {
   let requestOptions = null;
+  headers["Content-Type"] = "application/json";
 
   switch (type) {
     case "GET":
       requestOptions = {
-        method: "GET"
+        method: "GET",
+        headers: headers
       };
       break;
     case "POST":
       requestOptions = {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         body: JSON.stringify(body)
       };
       break;
     case "DELETE":
       requestOptions = {
-        method: "DELETE"
+        method: "DELETE",
+        headers: headers
       };
       break;
   }

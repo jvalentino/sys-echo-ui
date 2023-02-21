@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-//import * as controller from "./home-controller";
-//import AppState from "../../AppState";
+import * as controller from "./dashboard-controller";
+import AppState from "../../AppState";
 
 class Dashboard extends Component {
   constructor() {
@@ -11,7 +11,9 @@ class Dashboard extends Component {
     };
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    await controller.load(AppState.getUrl(), AppState.getSessionId());
+  }
 
   render() {
     if (this.state.data == null) {
